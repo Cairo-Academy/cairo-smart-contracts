@@ -27,6 +27,7 @@ mod ERC721 {
     use starknet::get_caller_address;
     use starknet::contract_address_const;
     use starknet::ContractAddress;
+    use starknet::storage::{Map};
     use traits::Into;
     use zeroable::Zeroable;
     use traits::TryInto;
@@ -36,11 +37,11 @@ mod ERC721 {
     struct Storage {
         name: felt252,
         symbol: felt252,
-        owners: LegacyMap::<u256, ContractAddress>,
-        balances: LegacyMap::<ContractAddress, u256>,
-        token_approvals: LegacyMap::<u256, ContractAddress>,
+        owners: Map::<u256, ContractAddress>,
+        balances: Map::<ContractAddress, u256>,
+        token_approvals: Map::<u256, ContractAddress>,
         /// (owner, operator)
-        operator_approvals: LegacyMap::<(ContractAddress, ContractAddress), bool>,
+        operator_approvals: Map::<(ContractAddress, ContractAddress), bool>,
     }
 
     #[event]
@@ -75,8 +76,8 @@ mod ERC721 {
         self.symbol.write('NEE');
     }
 
-    #[external(v0)]
-    impl INFTImpl of token_stake::nftee::INFT<ContractState> {
+    #[abi(embed_v0)]
+    impl INFTImpl of super::INFT<ContractState> {
         fn get_name(self: @ContractState) -> felt252 {
             self.name.read()
         }

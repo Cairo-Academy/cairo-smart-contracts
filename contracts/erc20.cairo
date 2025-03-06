@@ -20,6 +20,7 @@ trait IToken<TContractState> {
 
 mod BuyToken {
 use starknet::{ContractAddress, get_caller_address, get_contract_address};
+use starknet::storage::{Map};
 
     #[storage]
     struct Storage {
@@ -28,8 +29,8 @@ use starknet::{ContractAddress, get_caller_address, get_contract_address};
         decimal: u128,
         total_supply: u128,
         owner: ContractAddress,
-        balance_of: LegacyMap::<ContractAddress, u128>,
-        allowance: LegacyMap::<(ContractAddress, ContractAddress), u128>,
+        balance_of: Map::<ContractAddress, u128>,
+        allowance: Map::<(ContractAddress, ContractAddress), u128>,
     }
 
     #[constructor]
@@ -89,8 +90,8 @@ use starknet::{ContractAddress, get_caller_address, get_contract_address};
         amount: u128
     }
 
-    #[external(v0)]
-    impl ITokenImpl of token_stake::buy_token::IToken<ContractState>{
+    #[abi(embed_v0)]
+    impl ITokenImpl of super::IToken<ContractState>{
         fn mint(ref self: ContractState, address: ContractAddress ) {
             let caller: ContractAddress = get_caller_address();
             assert(!caller.is_zero(), 'Caller cannot be address zero');
