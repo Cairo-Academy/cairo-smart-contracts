@@ -1,6 +1,7 @@
 mod contracts {
     mod erc20;
     mod nft;
+    mod swap;
 }
 
 mod tests {
