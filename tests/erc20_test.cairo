@@ -28,7 +28,7 @@ mod tests {
 
         // Call a view function of the contract
         let name = dispatcher.get_name();
-        assert(name == 'BuyToken', 'Incorrect Name');
+        assert(name == 'ERC20Token', 'Incorrect Name');
     }
 
     #[test]
@@ -39,7 +39,7 @@ mod tests {
 
         // Call a view function of the contract
         let symbol = dispatcher.get_symbol();
-        assert(symbol == 'BTK', 'Incorrect Symbol');
+        assert(symbol == 'ETK', 'Incorrect Symbol');
     }
 
     #[test]
@@ -154,26 +154,26 @@ mod tests {
         stop_prank(contract_address)
     }
 
-    // #[test]
-    // fn test_transfer_from() {
-    //     let contract_address = setup();
-    //     // Create a Dispatcher object that will allow interacting with the deployed contract
-    //     let dispatcher = ITokenDispatcher { contract_address };
+    #[test]
+    fn test_transfer_from() {
+        let contract_address = setup();
+        // Create a Dispatcher object that will allow interacting with the deployed contract
+        let dispatcher = ITokenDispatcher { contract_address };
 
-    //     // Call a view function of the contract
-    //     let user: ContractAddress = 0x03.try_into().unwrap();
-    //     let receiver: ContractAddress = 0x01.try_into().unwrap();
-    //     start_prank(contract_address, user);
-    //     dispatcher.mint(user);
-    //     assert(dispatcher.get_balance_of_user(user) != 0, 'balance is 0');
-    //     assert(dispatcher.get_total_supply() == dispatcher.get_balance_of_user(user), 'supply == 0');
-    //     dispatcher.approval(user, contract_address, 100);
-    //     assert(dispatcher.allowance(user, contract_address) != 0, 'allowance is 0');
-    //     let transfer_from = dispatcher.transfer_from(user, receiver, 10);
-    //     assert(dispatcher.get_balance_of_user(user) != 1000, 'balance is 1000');
-    //     assert(dispatcher.get_balance_of_user(receiver) != 0, 'rec_balance == 0');
-    //     stop_prank(contract_address)
-    // }
+        // Call a view function of the contract
+        let user: ContractAddress = 0x03.try_into().unwrap();
+        let receiver: ContractAddress = 0x01.try_into().unwrap();
+        start_prank(contract_address, user);
+        dispatcher.mint(user);
+        assert(dispatcher.get_balance_of_user(user) != 0, 'balance is 0');
+        assert(dispatcher.get_total_supply() == dispatcher.get_balance_of_user(user), 'supply == 0');
+        dispatcher.approval(user, contract_address, 100);
+        assert(dispatcher.allowance(user, contract_address) != 0, 'allowance is 0');
+        let transfer_from = dispatcher.transfer_from(user, receiver, 10);
+        assert(dispatcher.get_balance_of_user(user) != 1000, 'balance is 1000');
+        assert(dispatcher.get_balance_of_user(receiver) != 0, 'rec_balance == 0');
+        stop_prank(contract_address)
+    }
 
     #[test]
     fn test_withdraw_tokens() {

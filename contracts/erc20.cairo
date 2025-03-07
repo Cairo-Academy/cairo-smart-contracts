@@ -18,7 +18,7 @@ trait IToken<TContractState> {
 
 #[starknet::contract]
 
-mod BuyToken {
+mod ERC20Token {
 use starknet::{ContractAddress, get_caller_address, get_contract_address};
 use starknet::storage::{Map};
 
@@ -35,8 +35,8 @@ use starknet::storage::{Map};
 
     #[constructor]
     fn constructor(ref self: ContractState) {
-        self.name.write('BuyToken');
-        self.symbol.write('BTK');
+        self.name.write('ERC20Token');
+        self.symbol.write('ETK');
         self.decimal.write(18);
         self.owner.write(get_caller_address());
     }
